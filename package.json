@@ -1,0 +1,45 @@
+{
+  "name": "ha-ev-charging-card",
+  "version": "0.1.0",
+  "description": "Home Assistant Lovelace card showing an EV charging session — power, energy added, SoC, charge limit, ETA, and a dynamic title (Charging / Supercharging / DC Fast Charging).",
+  "type": "module",
+  "main": "dist/ev-charging-card.js",
+  "scripts": {
+    "build": "rollup -c",
+    "watch": "rollup -c -w",
+    "lint": "eslint \"src/**/*.ts\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "home-assistant",
+    "lovelace",
+    "hacs",
+    "ev",
+    "electric-vehicle",
+    "tesla",
+    "charging"
+  ],
+  "author": "John Briscoe",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/johnbr/ha-ev-charging-card.git"
+  },
+  "dependencies": {
+    "custom-card-helpers": "^1.9.0",
+    "lit": "^3.1.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.57.0",
+    "rollup": "^4.12.0",
+    "tslib": "^2.6.2",
+    "typescript": "^5.3.3"
+  }
+}
