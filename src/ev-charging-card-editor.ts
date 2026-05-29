@@ -1,5 +1,5 @@
 import { LitElement, html, css, nothing, type TemplateResult } from 'lit';
-import { customElement, property, state } from 'lit/decorators.js';
+import { property, state } from 'lit/decorators.js';
 import type { HomeAssistant, LovelaceCardEditor } from 'custom-card-helpers';
 
 import { EDITOR_TYPE } from './const';
@@ -37,9 +37,9 @@ const SCHEMA = [
     selector: { entity: { domain: ['sensor'] } },
   },
   { name: 'title_override', selector: { text: {} } },
+  { name: 'idle_title', selector: { text: {} } },
 ] as const;
 
-@customElement(EDITOR_TYPE)
 export class EvChargingCardEditor extends LitElement implements LovelaceCardEditor {
   @property({ attribute: false }) public hass?: HomeAssistant;
 
@@ -79,6 +79,7 @@ export class EvChargingCardEditor extends LitElement implements LovelaceCardEdit
       charging_state: 'Charging active sensor',
       charging_type: 'Charging type sensor (for dynamic title)',
       title_override: 'Title override (static)',
+      idle_title: 'Idle title (when not charging)',
     };
     return labels[s.name] ?? s.name;
   };
@@ -92,6 +93,10 @@ export class EvChargingCardEditor extends LitElement implements LovelaceCardEdit
     });
     this.dispatchEvent(event);
   }
+}
+
+if (!customElements.get(EDITOR_TYPE)) {
+  customElements.define(EDITOR_TYPE, EvChargingCardEditor);
 }
 
 declare global {

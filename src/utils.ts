@@ -1,5 +1,10 @@
 import type { HomeAssistant } from 'custom-card-helpers';
-import { ACTIVE_CHARGING_STATES, DEFAULT_TITLE_MAP, UNAVAILABLE_STATES } from './const';
+import {
+  ACTIVE_CHARGING_STATES,
+  DEFAULT_IDLE_TITLE,
+  DEFAULT_TITLE_MAP,
+  UNAVAILABLE_STATES,
+} from './const';
 import type { EvChargingCardConfig } from './types';
 
 export interface EntityRead {
@@ -85,8 +90,13 @@ function parseMinutes(read: EntityRead): number | null {
   return null;
 }
 
-export function resolveTitle(config: EvChargingCardConfig, hass?: HomeAssistant): string {
+export function resolveTitle(
+  config: EvChargingCardConfig,
+  hass: HomeAssistant | undefined,
+  active: boolean,
+): string {
   if (config.title_override) return config.title_override;
+  if (!active) return config.idle_title ?? DEFAULT_IDLE_TITLE;
   const map = config.charging_type_map ?? DEFAULT_TITLE_MAP;
   const fallback = map.default ?? DEFAULT_TITLE_MAP.default ?? 'Charging';
   if (!config.charging_type) return fallback;

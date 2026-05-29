@@ -14,4 +14,5 @@ export interface EvChargingCardConfig extends LovelaceCardConfig {
 
   charging_type_map?: Record<string, string>;
   title_override?: string;
+  idle_title?: string;
 }

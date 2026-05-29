@@ -6,14 +6,14 @@ export const cardStyles = css`
   }
 
   ha-card {
-    padding: 12px 16px;
+    padding: 4px 16px 6px;
   }
 
   .title {
     font-size: var(--ha-card-header-font-size, 1.1em);
     font-weight: 500;
-    color: var(--primary-text-color);
-    margin-bottom: 8px;
+    color: var(--success-color, #43a047);
+    margin-bottom: 0;
     text-align: center;
   }
 
@@ -43,9 +43,16 @@ export const cardStyles = css`
     filter: drop-shadow(0 0 4px var(--warning-color, #ffa500));
   }
 
+  .bar-block {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
   .bar {
     position: relative;
-    flex: 1 1 auto;
+    width: 100%;
     height: 32px;
     border-radius: 16px;
     background: var(--secondary-background-color);
@@ -87,31 +94,51 @@ export const cardStyles = css`
     animation: shimmer-sweep 2s linear infinite;
   }
 
-  .metrics {
+  .metric {
     position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    top: 50%;
+    transform: translateY(-50%);
     font-size: 0.85em;
-    font-weight: 500;
-    color: var(--primary-text-color);
-    mix-blend-mode: difference;
+    font-weight: 600;
+    color: #ffffff;
+    text-shadow: 0 0 2px rgba(0, 0, 0, 0.9), 0 1px 2px rgba(0, 0, 0, 0.6);
     pointer-events: none;
-    padding: 0 12px;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    z-index: 2;
   }
 
+  .metric-left {
+    left: 12px;
+  }
+
+  .metric-right {
+    right: calc(100% - var(--metric-right-pos, 100%) + 4px);
+    text-align: right;
+  }
+
+  .metric-center {
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .soc-marker,
   .limit-marker {
     position: absolute;
     top: -2px;
     bottom: -2px;
     width: 2px;
-    background: var(--accent-color, #ff9800);
     pointer-events: none;
-    z-index: 1;
+    z-index: 3;
+    transform: translateX(-50%);
+  }
+
+  .soc-marker {
+    background: var(--primary-text-color);
+    opacity: 0.85;
+  }
+
+  .limit-marker {
+    background: var(--accent-color, #ff9800);
   }
 
   .limit-marker::after {
@@ -125,6 +152,41 @@ export const cardStyles = css`
     border-right: 4px solid transparent;
     border-top: 4px solid var(--accent-color, #ff9800);
   }
+
+  .above-bar,
+  .below-bar {
+    position: relative;
+    min-height: 1.2em;
+    font-size: 0.8em;
+  }
+
+  .above-bar {
+    margin-bottom: 2px;
+  }
+
+  .below-bar {
+    margin-top: 4px;
+  }
+
+  .above-bar > div,
+  .below-bar > div {
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    line-height: 1.2em;
+  }
+
+  .limit-above {
+    color: var(--accent-color, #ff9800);
+    font-weight: 500;
+  }
+
+  .soc-below {
+    color: var(--primary-text-color);
+    font-weight: 600;
+  }
+
 
   hui-warning {
     display: block;

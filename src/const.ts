@@ -12,6 +12,8 @@ export const DEFAULT_TITLE_MAP: Record<string, string> = {
   default: 'Charging',
 };
 
+export const DEFAULT_IDLE_TITLE = 'Not Plugged In';
+
 export const ACTIVE_CHARGING_STATES = new Set([
   'on',
   'true',
