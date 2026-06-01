@@ -5,6 +5,7 @@ export const EDITOR_TYPE = 'ev-charging-card-editor';
 
 export const DEFAULT_TITLE_MAP: Record<string, string> = {
   Supercharger: 'Supercharging',
+  Fast: 'Supercharging',
   CHAdeMO: 'DC Fast Charging',
   Combo: 'DC Fast Charging',
   GB: 'DC Fast Charging',
