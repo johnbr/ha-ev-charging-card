@@ -94,31 +94,42 @@ export const cardStyles = css`
     animation: shimmer-sweep 2s linear infinite;
   }
 
-  .metric {
+  .metrics {
     position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
+    inset: 0;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    column-gap: 8px;
+    padding: 0 12px;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .metric {
     font-size: 0.85em;
     font-weight: 600;
     color: #ffffff;
     text-shadow: 0 0 2px rgba(0, 0, 0, 0.9), 0 1px 2px rgba(0, 0, 0, 0.6);
-    pointer-events: none;
     white-space: nowrap;
-    z-index: 2;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .metric-left {
-    left: 12px;
-  }
-
-  .metric-right {
-    right: calc(100% - var(--metric-right-pos, 100%) + 4px);
-    text-align: right;
+    grid-column: 1;
+    justify-self: start;
   }
 
   .metric-center {
-    left: 50%;
-    transform: translate(-50%, -50%);
+    grid-column: 2;
+    justify-self: center;
+  }
+
+  .metric-right {
+    grid-column: 3;
+    justify-self: end;
   }
 
   .soc-marker,

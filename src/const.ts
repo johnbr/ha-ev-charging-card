@@ -1,4 +1,4 @@
-export const CARD_VERSION = '0.1.0';
+export const CARD_VERSION = '0.1.1';
 
 export const CARD_TYPE = 'ev-charging-card';
 export const EDITOR_TYPE = 'ev-charging-card-editor';

@@ -101,11 +101,6 @@ export class EvChargingCard extends LitElement implements LovelaceCard {
     const energy = active ? formatEnergy(readEntity(this.hass, this._config.energy_added)) : null;
     const eta = active ? formatDuration(readEntity(this.hass, this._config.time_remaining)) : null;
 
-    const ENERGY_TEXT_WIDTH_PCT = 22;
-    const rightBoundary = limit ?? 100;
-    const energyRightEdgePct =
-      rightBoundary - soc >= ENERGY_TEXT_WIDTH_PCT ? rightBoundary : soc;
-
     return html`
       <ha-card>
         ${this._renderTitle(active)}
@@ -127,17 +122,12 @@ export class EvChargingCard extends LitElement implements LovelaceCard {
               <div class="fill" data-full="${soc >= 99.5}" style="width: ${soc}%">
                 <div class="shimmer" data-active="${active}"></div>
               </div>
-              ${active && power
-                ? html`<div class="metric metric-left">${power}</div>`
-                : nothing}
-              ${active && eta
-                ? html`<div class="metric metric-center">ETA ${eta}</div>`
-                : nothing}
-              ${active && energy
-                ? html`<div
-                    class="metric metric-right"
-                    style="--metric-right-pos: ${energyRightEdgePct}%"
-                  >${energy}</div>`
+              ${active && (power || eta || energy)
+                ? html`<div class="metrics">
+                    ${power ? html`<div class="metric metric-left">${power}</div>` : nothing}
+                    ${eta ? html`<div class="metric metric-center">ETA ${eta}</div>` : nothing}
+                    ${energy ? html`<div class="metric metric-right">${energy}</div>` : nothing}
+                  </div>`
                 : nothing}
               <div class="soc-marker" style="left: ${soc}%"></div>
               ${limit != null
