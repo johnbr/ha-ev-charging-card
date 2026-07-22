@@ -2,7 +2,7 @@ import { LitElement, html, nothing, type TemplateResult } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import type { HomeAssistant, LovelaceCard, LovelaceCardEditor } from 'custom-card-helpers';
 
-import { CARD_TYPE, CARD_VERSION, EDITOR_TYPE } from './const';
+import { CARD_TYPE, CARD_VERSION, DEFAULT_SOC_PRECISION, EDITOR_TYPE } from './const';
 import { cardStyles } from './styles';
 import type { EvChargingCardConfig } from './types';
 import {
@@ -12,6 +12,7 @@ import {
   formatPower,
   isCharging,
   readEntity,
+  resolveDecimals,
   resolveTitle,
 } from './utils';
 
@@ -91,6 +92,7 @@ export class EvChargingCard extends LitElement implements LovelaceCard {
     }
 
     const soc = clampPercent(socRead.numeric);
+    const socDecimals = resolveDecimals(this._config.soc_precision, DEFAULT_SOC_PRECISION);
     const limitRead = readEntity(this.hass, this._config.charge_limit);
     const limit = limitRead && limitRead.available ? clampPercent(limitRead.numeric) : null;
 
@@ -135,7 +137,7 @@ export class EvChargingCard extends LitElement implements LovelaceCard {
                 : nothing}
             </div>
             <div class="below-bar">
-              <div class="soc-below" style="left: ${soc}%">${soc.toFixed(0)}%</div>
+              <div class="soc-below" style="left: ${soc}%">${soc.toFixed(socDecimals)}%</div>
             </div>
           </div>
         </div>

@@ -32,6 +32,14 @@ export function readEntity(
   };
 }
 
+// Coerce a user-supplied decimal-place count into a safe integer in [0, 3],
+// falling back to `fallback` when the config value is missing or non-numeric.
+export function resolveDecimals(value: number | undefined, fallback: number): number {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return fallback;
+  return Math.min(3, Math.max(0, Math.trunc(n)));
+}
+
 export function clampPercent(n: number | null | undefined): number {
   if (n == null || !Number.isFinite(n)) return 0;
   if (n < 0) return 0;

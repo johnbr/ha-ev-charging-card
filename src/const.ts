@@ -1,4 +1,4 @@
-export const CARD_VERSION = '0.1.1';
+export const CARD_VERSION = '0.2.0';
 
 export const CARD_TYPE = 'ev-charging-card';
 export const EDITOR_TYPE = 'ev-charging-card-editor';
@@ -14,6 +14,9 @@ export const DEFAULT_TITLE_MAP: Record<string, string> = {
 };
 
 export const DEFAULT_IDLE_TITLE = 'Not Plugged In';
+
+// Decimal places shown for the current state-of-charge label (e.g. 19.2%).
+export const DEFAULT_SOC_PRECISION = 1;
 
 export const ACTIVE_CHARGING_STATES = new Set([
   'on',

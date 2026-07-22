@@ -1,6 +1,6 @@
 {
   "name": "ha-ev-charging-card",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Home Assistant Lovelace card showing an EV charging session — power, energy added, SoC, charge limit, ETA, and a dynamic title (Charging / Supercharging / DC Fast Charging).",
   "type": "module",
   "main": "dist/ev-charging-card.js",

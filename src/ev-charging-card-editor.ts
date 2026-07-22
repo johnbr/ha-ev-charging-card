@@ -13,8 +13,12 @@ const SCHEMA = [
     selector: { entity: { domain: ['sensor'], device_class: 'battery' } },
   },
   {
+    name: 'soc_precision',
+    selector: { number: { min: 0, max: 3, step: 1, mode: 'box' } },
+  },
+  {
     name: 'charge_limit',
-    selector: { entity: { domain: ['sensor', 'input_number', 'number'] } },
+    selector: { entity: { domain: ['number', 'input_number', 'sensor'] } },
   },
   {
     name: 'power',
@@ -72,7 +76,8 @@ export class EvChargingCardEditor extends LitElement implements LovelaceCardEdit
     const labels: Record<string, string> = {
       name: 'Card title (optional override)',
       state_of_charge: 'State of charge (%)',
-      charge_limit: 'Charge limit (%)',
+      soc_precision: 'State-of-charge decimals (0–3)',
+      charge_limit: 'Charge limit / target (number entity updates fastest)',
       power: 'Charging power (kW)',
       energy_added: 'Energy added (kWh)',
       time_remaining: 'Time remaining',

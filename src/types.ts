@@ -5,6 +5,7 @@ export interface EvChargingCardConfig extends LovelaceCardConfig {
   name?: string;
 
   state_of_charge: string;
+  soc_precision?: number;
   charge_limit?: string;
   power?: string;
   energy_added?: string;

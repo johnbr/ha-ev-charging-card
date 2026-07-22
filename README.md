@@ -47,7 +47,8 @@ charging_type_map:
 | Option | Type | Required | Description |
 |---|---|---|---|
 | `state_of_charge` | entity | yes | Sensor with current battery % |
-| `charge_limit` | entity | no | Sensor with target SoC % — drawn as a marker on the bar |
+| `soc_precision` | number | no | Decimal places for the current SoC label, `0`–`3` (default `1`, e.g. `19.2%`) |
+| `charge_limit` | entity | no | Target SoC % — drawn as a marker on the bar. Pick the entity that reflects changes fastest without dropping out; see the [Tesla tip](#example--tesla-via-tesla_telemetry) on merging polled + telemetry sources |
 | `power` | entity | no | Charging power sensor (kW; W also accepted) |
 | `energy_added` | entity | no | Energy added this session (kWh; Wh accepted) |
 | `time_remaining` | entity | no | Minutes to full, hours, or `H:MM` string |
@@ -64,7 +65,7 @@ The `kW`, `kWh`, and ETA metrics are only shown while charging. The card never d
 ```yaml
 type: custom:ev-charging-card
 state_of_charge: sensor.roadrunner_battery_level_telemetry
-charge_limit:    sensor.roadrunner_charge_limit_telemetry
+charge_limit:    sensor.roadrunner_charge_limit_unified
 power:           sensor.roadrunner_dc_charging_power_telemetry
 energy_added:    sensor.roadrunner_dc_charging_energy_added_telemetry
 time_remaining:  sensor.roadrunner_time_to_full_charge_telemetry
@@ -73,6 +74,16 @@ charging_type:   sensor.roadrunner_fast_charger_type_telemetry
 ```
 
 The default `charging_type_map` already covers Tesla's `FastChargerType` states (`Supercharger`, `CHAdeMO`, `Combo`, `GB`, `AC`).
+
+> **Tip — the charge limit changes from two sides.** Set it in HA and the polled `number.roadrunner_charge_limit` updates fast; set it in the car/app and the telemetry `sensor.*` catches it first (minutes before the next Fleet poll). But each source alone has a blind spot: the raw telemetry sensor lags 30+ min on HA-side changes, and the raw `number.*` reads `unknown` for long stretches while the car sleeps (blanking the marker). The robust fix is a template sensor that merges both and shows whichever `last_changed` is newest — point `charge_limit` at that. See the freshest-of-both pattern:
+>
+> ```jinja
+> {% set n = 'number.roadrunner_charge_limit' %}
+> {% set t = 'sensor.roadrunner_charge_limit_telemetry' %}
+> {% if has_value(n) and has_value(t) %}
+>   {{ states(n) if as_timestamp(states[n].last_changed,0) >= as_timestamp(states[t].last_changed,0) else states(t) }}
+> {% elif has_value(n) %}{{ states(n) }}{% else %}{{ states(t) }}{% endif %}
+> ```
 
 ## Example — non-Tesla (helpers + OpenEVSE)
 
