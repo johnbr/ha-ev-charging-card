@@ -2,6 +2,8 @@
 
 A compact, single-row Home Assistant Lovelace card for visualizing an active EV charging session.
 
+<img src="https://raw.githubusercontent.com/johnbr/ha-ev-charging-card/main/docs/ev-charging-card.png" alt="Three EV Charging Cards: charging at home, Supercharging, and parked unplugged" width="460">
+
 - Animated lightning bolt + shimmering progress bar when charging.
 - Metrics overlaid on the bar: SoC %, kW, kWh added, ETA.
 - Charge-limit marker on the bar.
@@ -12,15 +14,22 @@ A compact, single-row Home Assistant Lovelace card for visualizing an active EV 
 
 ### HACS
 
-1. HACS → Frontend → ⋮ → Custom repositories → add this repo as a **Lovelace** category.
-2. Install **EV Charging Card**.
-3. Add the card from the visual picker (HACS adds the resource for you).
+[![Open this repository in HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=johnbr&repository=ha-ev-charging-card&category=plugin)
+
+1. In HACS, search for **EV Charging Card** and download it (or use the button above).
+2. Reload the browser, then add the card from the visual picker. HACS adds the resource for you.
+
+If HACS doesn't list it yet, add it as a custom repository instead: HACS → **⋮** →
+**Custom repositories** → `https://github.com/johnbr/ha-ev-charging-card`, category
+**Dashboard**, then continue from step 1.
 
 ### Manual
 
 1. Download `ev-charging-card.js` from the latest [release](https://github.com/johnbr/ha-ev-charging-card/releases).
-2. Drop it into `/config/www/community/ha-ev-charging-card/`.
-3. Settings → Dashboards → ⋮ → Resources → add `/hacsfiles/ha-ev-charging-card/ev-charging-card.js` as **JavaScript Module**.
+2. Put it in `/config/www/` (served as `/local/`). Not under `www/community/`: that directory
+   belongs to HACS, which serves it as `/hacsfiles/` only when HACS is installed.
+3. Settings → Dashboards → ⋮ → Resources → add `/local/ev-charging-card.js?v=0.2.1` as
+   **JavaScript Module**. Change the `?v=` on every update, or browsers keep the old card.
 
 ## Configuration
 
@@ -56,9 +65,10 @@ charging_type_map:
 | `charging_type` | entity | no | State of this entity is looked up in `charging_type_map` to set the title |
 | `charging_type_map` | object | no | Map of entity state → title. `default` is the fallback |
 | `title_override` | string | no | If set, used verbatim as the title |
-| `name` | string | no | Alias for `title_override` |
+| `name` | string | no | Same as `title_override`, and wins if both are set |
+| `idle_title` | string | no | Title while not charging (default `Not Plugged In`) |
 
-The `kW`, `kWh`, and ETA metrics are only shown while charging. The card never disappears when entities are unavailable — it falls back to showing just the SoC with the bar at rest.
+The `kW`, `kWh`, and ETA metrics are only shown while charging. An unavailable power, energy, ETA, limit or charging-state entity just drops its part of the card. If the **state of charge** itself is unavailable there is no bar to draw, so the card shows a warning in its place.
 
 ## Example — Tesla via [`tesla_telemetry`](https://github.com/johnbr/ha-tesla-fleet-telemetry)
 
@@ -103,3 +113,5 @@ The progress bar has appropriate ARIA semantics. All animations are disabled whe
 ## License
 
 [MIT](LICENSE)
+
+The screenshot uses made-up demo entities.
