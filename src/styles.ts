@@ -103,7 +103,10 @@ export const cardStyles = css`
     column-gap: 8px;
     padding: 0 12px;
     pointer-events: none;
-    z-index: 2;
+    /* Above the SoC and limit markers (z-index 3): a limit under a label
+       (80-90% sits under the right-hand kWh figure) otherwise draws its line
+       through the text. The text shadow keeps the label readable over it. */
+    z-index: 4;
   }
 
   .metric {

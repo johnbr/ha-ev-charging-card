@@ -21,9 +21,6 @@ jobs:
       - uses: hacs/action@main
         with:
           category: plugin
-          # `brands`: dropped once the home-assistant/brands PR lands.
-          # `images`: dropped once a real screenshot is added to README.
-          ignore: brands images
 
   build:
     name: Build
@@ -34,7 +31,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
       - run: npm ci
       - run: npm run typecheck
